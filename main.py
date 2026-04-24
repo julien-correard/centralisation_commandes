@@ -3,18 +3,13 @@ from openpyxl.utils import get_column_letter
 
 from typing import List
 
-from models import Article, Error
+from models import Article
 from excel_writer import add_article
 from excel_reader import get_client, read_articles
-from error import print_errors
 
 from config import CLIENT_NAME_ROW, CLIENT_NAME_COLUMN, LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW
 from config import CENTRAL_WORKBOOK, OUTPUT_WORKBOOK
-    
 
-
-
-            
         
 def main():
     try:
@@ -33,17 +28,17 @@ def main():
 
         for article in articles:
             print(article)
-            add_article(orders_sheet, client, article, errors)
+            add_article(orders_sheet, client, article)
         
         orders_workbook.save(OUTPUT_WORKBOOK)
+        print(f"Fichier {OUTPUT_WORKBOOK} enregistré.")
 
-
-        print_errors(errors)
         print("Done")
 
     except ValueError as e:
-        print("\n!!! ERREUR !!!")
+        print("\n!!! ERREUR !!!\n")
         print(e)
+        print("\nAucun fichier n'a été sauvegardé.")
         input("\nAppuyez sur Entrée pour quitter...")
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ from openpyxl.utils import get_column_letter
 
 from typing import List
 
-from models import Article, Error
+from models import Article
 
 from config import CLIENT_NAME_ROW, CLIENT_NAME_COLUMN, LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW
     
