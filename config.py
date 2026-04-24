@@ -9,3 +9,4 @@ FIRST_CLIENT_COLUMN = 3 #La première colonne où figure un nom de client dans l
 
 CENTRAL_WORKBOOK = "Commandes.xlsx"
 OUTPUT_WORKBOOK = "Commandes2.xlsx"
+FICHIER_CORRESPONDANCE_CLIENTS = "Correspondances clients.csv"

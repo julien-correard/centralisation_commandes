@@ -3,7 +3,7 @@ from typing import List
 from models import Article
 
 from config import LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW, CLIENT_ROW, FIRST_CLIENT_COLUMN
-from config import CENTRAL_WORKBOOK
+from config import CENTRAL_WORKBOOK, FICHIER_CORRESPONDANCE_CLIENTS
 
 def get_last_filled_column(sheet, row):
     last_col = None
@@ -15,24 +15,26 @@ def get_last_filled_column(sheet, row):
 
     return last_col
 
-def get_client_column(sheet, client):
+def get_client_column(sheet, client, client_map):
+
+    mapped_client = client_map.get(client, client)
 
     last_col = get_last_filled_column(sheet, CLIENT_ROW)
     for col in range(FIRST_CLIENT_COLUMN, last_col):
         client_name = sheet.cell(row=CLIENT_ROW, column=col).value
-        if client == client_name:
+        if mapped_client == client_name:
             return col
     
     raise ValueError(
-        f"Le client {client} "
+        f"Le client {client} -> {mapped_client} "
         f"n'a pas pu être trouvé dans le fichier "
         f"{CENTRAL_WORKBOOK}.\n"
-        f"Veuillez vérifier les fichiers et relancer le script."
+        f"Veuillez vérifier le fichier {FICHIER_CORRESPONDANCE_CLIENTS} et les fichiers .xlsx et relancer le script."
     )
 
-def add_article(sheet, client, article: Article):
+def add_article(sheet, client, article: Article, client_map):
 
-    client_column = get_client_column(sheet, client)
+    client_column = get_client_column(sheet, client, client_map)
     for row in range(LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW):
 
         order_name = sheet.cell(row=row, column=1).value

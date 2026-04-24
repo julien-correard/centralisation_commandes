@@ -1,6 +1,7 @@
-# Fichiers Excel du client
+# Fichiers client
 
 *.xlsx
+*.csv
 /Xlsx_originaux
 
 # Fichiers temporaires
