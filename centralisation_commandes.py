@@ -26,22 +26,14 @@ def add_article(sheet, client, article: Article):
             
             return  # on sort dès qu'on a trouvé
         
-def main():
+def read_articles(sheet):
     
-    # Charger le fichier
-    client_workbook = load_workbook("Gamm vert.xlsx")
-    client_sheet = client_workbook.active
-
-    orders_workbook = load_workbook("Commandes.xlsx")
-    orders_sheet = orders_workbook.active
-
-
-    #articles = []
+    articles = []
 
     # Cherche les articles dont la quantité n'est pas nulle
-    for name, quantity in client_sheet.iter_rows(
+    for name, quantity in sheet.iter_rows(
         min_row=LOWEST_CLIENT_ROW,
-        max_row=HIGHEST_CLIENT_ROW,
+        max_row=HIGHEST_CLIENT_ROW+1,
         min_col=1,
         max_col=2,
         values_only=True
@@ -53,9 +45,31 @@ def main():
                 continue  # ou gérer autrement
 
             current_article = Article(name, quantity_int)
-            print(current_article)
+            articles.append(current_article)
+            #print(current_article)
+
+    return articles
             
-            add_article( orders_sheet, "Gamm vert", current_article)
+        
+def main():
+    
+    # Charger le fichier
+    client_workbook = load_workbook("Gamm vert.xlsx")
+    client_sheet = client_workbook.active
+
+    orders_workbook = load_workbook("Commandes.xlsx")
+    orders_sheet = orders_workbook.active
+
+
+    
+            #add_article( orders_sheet, "Gamm vert", current_article)
+            
+    articles = read_articles(client_sheet)
+
+    for article in articles:
+        print(article)
+        add_article(orders_sheet, "Gamm vert", article)
+    
     orders_workbook.save("Commandes2.xlsx")
             
     print("Done")
