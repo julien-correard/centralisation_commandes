@@ -3,9 +3,15 @@
 *.xlsx
 *.csv
 /Xlsx_originaux
-derniere_execution.txt
+/clients
+script/Derniere_execution.txt
 
 # Fichiers temporaires
 
 *.xlsx#
-/__pycache__
+script/__pycache__
+*.pyc
+
+# Scripts
+
+*.sh

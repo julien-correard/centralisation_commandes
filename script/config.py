@@ -11,5 +11,6 @@ CLIENT_ROW = 1                  # La ligne où sont écrits les noms de clients 
 FIRST_CLIENT_COLUMN = 3         # La première colonne où figure un nom de client dans le tableau central
 
 CENTRAL_WORKBOOK = "Commandes.xlsx"
-OUTPUT_WORKBOOK = "Commandes.xlsx"
-FICHIER_CORRESPONDANCE_CLIENTS = "Correspondances clients.csv"
+OUTPUT_WORKBOOK = "Commandes2.xlsx"
+FICHIER_CORRESPONDANCE_CLIENTS = "script/Correspondances_clients.csv"
+LAST_RUN_FILE = "script/Derniere_execution.txt"

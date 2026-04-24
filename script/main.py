@@ -32,15 +32,14 @@ def main():
 
             print(f"Traitement du fichier {file_path} : ", end="")
 
-            workbook = load_workbook(file_path)
-            sheet = workbook.active
+            client_workbook = load_workbook(file_path)
+            client_sheet = client_workbook.active
 
-            client = get_client(sheet, file_path)
-            articles = read_articles(sheet)
+            client = get_client(client_sheet, file_path)
+            articles = read_articles(client_sheet)
 
             for article in articles:
                 add_article(orders_sheet, client, article, client_map)
-
             print("OK")
 
         orders_workbook.save(OUTPUT_WORKBOOK)
@@ -50,7 +49,7 @@ def main():
     except ValueError as e:
         print("\n!!! ERREUR !!!\n")
         print(e)
-        print("\nAucun fichier n'a été sauvegardé.")
+        print(f"\nLe fichier {OUTPUT_WORKBOOK} n'a pas été modifié.")
         input("\nAppuyez sur Entrée pour quitter...")
 
 if __name__ == "__main__":

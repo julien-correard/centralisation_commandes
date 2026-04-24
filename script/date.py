@@ -2,13 +2,16 @@ from datetime import datetime
 from pathlib import Path
 import sys
 
-STATE_FILE = Path("derniere_execution.txt")
+from config import LAST_RUN_FILE
+
+STATE_FILE = Path(LAST_RUN_FILE)
 
 def print_last_run_datetime():
     last_run = get_last_run_datetime()
     if last_run:
         last_dt = datetime.fromisoformat(last_run)
-        print("\nDernière exécution le", last_dt.strftime("%d/%m/%Y à %Hh%M"), "\n")
+        print("\nDernière exécution le", last_dt.strftime("%d/%m/%Y à %Hh%M"), "")
+        input("Appuyez sur Entrée pour continuer...\n")
 
 def save_run_datetime():
     now = datetime.now().isoformat(timespec="seconds")

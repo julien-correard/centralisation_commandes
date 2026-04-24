@@ -35,6 +35,7 @@ def get_client_column(sheet, client, client_map):
 def add_article(sheet, client, article: Article, client_map):
 
     client_column = get_client_column(sheet, client, client_map)
+    
     for row in range(LOWEST_CENTRAL_ROW, HIGHEST_CENTRAL_ROW):
 
         order_name = sheet.cell(row=row, column=1).value
@@ -43,8 +44,13 @@ def add_article(sheet, client, article: Article, client_map):
         if order_name == article.name:
             if order_quantity is None:
                 order_quantity = 0
-            
-            sheet.cell(row=row, column=11).value = order_quantity + article.quantity
+            else:
+                try:
+                    order_quantity = int(order_quantity)
+                except (TypeError, ValueError):
+                    order_quantity = 0
+
+            sheet.cell(row=row, column=client_column).value = order_quantity + article.quantity
             
             return  # on sort dès qu'on a trouvé
     raise ValueError(
