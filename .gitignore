@@ -6,3 +6,4 @@
 # Fichiers temporaires
 
 *.xlsx#
+/__pycache__
