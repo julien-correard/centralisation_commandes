@@ -3,6 +3,7 @@
 *.xlsx
 *.csv
 /Xlsx_originaux
+derniere_execution.txt
 
 # Fichiers temporaires
 

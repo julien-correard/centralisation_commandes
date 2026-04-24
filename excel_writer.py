@@ -2,7 +2,7 @@ from typing import List
 
 from models import Article
 
-from config import LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW, CLIENT_ROW, FIRST_CLIENT_COLUMN
+from config import LOWEST_CENTRAL_ROW, HIGHEST_CENTRAL_ROW, CLIENT_ROW, FIRST_CLIENT_COLUMN
 from config import CENTRAL_WORKBOOK, FICHIER_CORRESPONDANCE_CLIENTS
 
 def get_last_filled_column(sheet, row):
@@ -35,7 +35,7 @@ def get_client_column(sheet, client, client_map):
 def add_article(sheet, client, article: Article, client_map):
 
     client_column = get_client_column(sheet, client, client_map)
-    for row in range(LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW):
+    for row in range(LOWEST_CENTRAL_ROW, HIGHEST_CENTRAL_ROW):
 
         order_name = sheet.cell(row=row, column=1).value
         order_quantity = sheet.cell(row=row, column=client_column).value

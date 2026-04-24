@@ -27,25 +27,25 @@ def get_client(sheet, client_filename):
     return value
 
 def read_articles(sheet):
-    
     articles = []
 
-    # Cherche les articles dont la quantité n'est pas nulle
-    for name, quantity in sheet.iter_rows(
-        min_row=LOWEST_CLIENT_ROW,
-        max_row=HIGHEST_CLIENT_ROW+1,
-        min_col=1,
-        max_col=2,
-        values_only=True
-    ):
-        if quantity is not None and quantity != "":
-            try:
-                quantity_int = int(quantity)
-            except (TypeError, ValueError):
-                continue  # ou gérer autrement
+    for row in range(LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW + 1):
 
-            current_article = Article(name, quantity_int)
-            articles.append(current_article)
-            
+        col = 1
+        while col <= sheet.max_column:
+
+            name = sheet.cell(row=row, column=col).value
+            quantity = sheet.cell(row=row, column=col + 1).value
+
+            if name not in (None, "") and quantity not in (None, ""):
+                try:
+                    quantity_int = int(quantity)
+                except (TypeError, ValueError):
+                    col += 2
+                    continue
+
+                articles.append(Article(name, quantity_int))
+
+            col += 2
 
     return articles
