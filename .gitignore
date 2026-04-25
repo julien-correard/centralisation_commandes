@@ -18,6 +18,6 @@ script/__pycache__
 
 # Build
 
-/build
+/script/build
 *.exe
-/dist
+/script/dist
