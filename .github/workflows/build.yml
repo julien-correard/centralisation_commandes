@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mon-programme-exe
-          path: dist/MonProgramme.exe
+          path: dist/main/
