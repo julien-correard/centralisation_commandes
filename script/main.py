@@ -59,14 +59,14 @@ def main():
         save_run_datetime()
 
     except ValueError as e:
-         message = (
+        message = (
         f"\n\n!!! ERREUR !!!\n\n"
         f"{e}\n\n"
         f"Le fichier {OUTPUT_WORKBOOK} n'a pas été modifié.\n"
         f"\nAppuyez sur Entrée pour quitter..."
-    )
-    print(message)
-    input()
+        )
+        print(message)
+        input()
 
 if __name__ == "__main__":
     main()
