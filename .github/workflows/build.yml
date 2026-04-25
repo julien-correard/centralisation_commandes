@@ -24,7 +24,7 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --onefile script/main.py --name MonProgramme
+          pyinstaller script/main.spec
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

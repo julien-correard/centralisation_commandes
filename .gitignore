@@ -15,3 +15,9 @@ script/__pycache__
 # Scripts
 
 *.sh
+
+# Build
+
+/build
+*.exe
+/dist
