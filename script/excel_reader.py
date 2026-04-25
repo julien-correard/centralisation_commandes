@@ -26,7 +26,7 @@ def get_client(sheet, client_filename):
 
     return value
 
-def read_articles(sheet):
+def read_articles(sheet, client, filename):
     articles = []
 
     for row in range(LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW + 1):
@@ -41,8 +41,12 @@ def read_articles(sheet):
                 try:
                     quantity_int = int(quantity)
                 except (TypeError, ValueError):
-                    col += 2
-                    continue
+                    col_letter = get_column_letter(col+1)
+                    raise ValueError(
+                        f"Quantité non valide pour le client {client} :\n"
+                        f"'{name}' à la ligne {row}, colonne {col_letter}: {quantity}\n"
+                        f"Veuillez vérifier le fichier {filename} et réessayer."
+                        )
 
                 articles.append(Article(name, quantity_int))
 

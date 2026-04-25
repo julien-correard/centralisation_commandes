@@ -20,13 +20,25 @@ def main():
         
         client_map = load_client_map()
 
-        orders_workbook = load_workbook(CENTRAL_WORKBOOK)
+        try:
+            orders_workbook = load_workbook(CENTRAL_WORKBOOK)
+        except:
+            raise ValueError(
+                f"Le fichier {CENTRAL_WORKBOOK} n'a pas été trouvé."
+            )
         orders_sheet = orders_workbook.active
 
         folder = "clients"
 
-        check_already_run_today()
-        print_last_run_datetime()
+        #check_already_run_today()
+        #print_last_run_datetime()
+
+        files = list(Path(folder).glob("*.xlsx"))
+
+        if not files:
+            raise ValueError(
+                f"Aucun fichier .xlsx trouvé dans le dossier {folder}"
+            )
 
         for file_path in Path(folder).glob("*.xlsx"):
 
@@ -36,7 +48,7 @@ def main():
             client_sheet = client_workbook.active
 
             client = get_client(client_sheet, file_path)
-            articles = read_articles(client_sheet)
+            articles = read_articles(client_sheet, client, file_path)
 
             for article in articles:
                 add_article(orders_sheet, client, article, client_map)
@@ -47,10 +59,14 @@ def main():
         save_run_datetime()
 
     except ValueError as e:
-        print("\n!!! ERREUR !!!\n")
-        print(e)
-        print(f"\nLe fichier {OUTPUT_WORKBOOK} n'a pas été modifié.")
-        input("\nAppuyez sur Entrée pour quitter...")
+         message = (
+        f"\n\n!!! ERREUR !!!\n\n"
+        f"{e}\n\n"
+        f"Le fichier {OUTPUT_WORKBOOK} n'a pas été modifié.\n"
+        f"\nAppuyez sur Entrée pour quitter..."
+    )
+    print(message)
+    input()
 
 if __name__ == "__main__":
     main()

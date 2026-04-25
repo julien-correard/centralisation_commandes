@@ -26,10 +26,11 @@ def get_client_column(sheet, client, client_map):
             return col
     
     raise ValueError(
-        f"Le client {client} -> {mapped_client} "
+        f"Le client {client} "
         f"n'a pas pu être trouvé dans le fichier "
         f"{CENTRAL_WORKBOOK}.\n"
-        f"Veuillez vérifier le fichier {FICHIER_CORRESPONDANCE_CLIENTS} et les fichiers .xlsx et relancer le script."
+        f"Veuillez vérifier le fichier {FICHIER_CORRESPONDANCE_CLIENTS} "
+        f"et les fichiers .xlsx et relancer le script."
     )
 
 def add_article(sheet, client, article: Article, client_map):
@@ -50,7 +51,7 @@ def add_article(sheet, client, article: Article, client_map):
                 except (TypeError, ValueError):
                     order_quantity = 0
 
-            sheet.cell(row=row, column=client_column).value = order_quantity + article.quantity
+            sheet.cell(row=row, column=client_column).value = article.quantity
             
             return  # on sort dès qu'on a trouvé
     raise ValueError(
