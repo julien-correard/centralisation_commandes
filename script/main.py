@@ -56,7 +56,8 @@ def main():
 
         orders_workbook.save(OUTPUT_WORKBOOK)
         print(f"\nFichier {OUTPUT_WORKBOOK} enregistré avec succès.")
-        save_run_datetime()
+        input("Appuyez sur entrée pour quitter...")
+        #save_run_datetime()
 
     except ValueError as e:
         message = (
