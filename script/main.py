@@ -9,7 +9,6 @@ from models import Article
 from excel_writer import add_article
 from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
-from date import save_run_datetime, check_already_run_today, print_last_run_datetime
 
 from config import CLIENT_NAME_ROW, CLIENT_NAME_COLUMN, LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW
 from config import CENTRAL_WORKBOOK, OUTPUT_WORKBOOK
@@ -29,9 +28,6 @@ def main():
         orders_sheet = orders_workbook.active
 
         folder = "clients"
-
-        #check_already_run_today()
-        #print_last_run_datetime()
 
         files = list(Path(folder).glob("*.xlsx"))
 
@@ -57,7 +53,6 @@ def main():
         orders_workbook.save(OUTPUT_WORKBOOK)
         print(f"\nFichier {OUTPUT_WORKBOOK} enregistré avec succès.")
         input("Appuyez sur entrée pour quitter...")
-        #save_run_datetime()
 
     except ValueError as e:
         message = (

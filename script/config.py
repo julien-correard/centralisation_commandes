@@ -13,4 +13,3 @@ FIRST_CLIENT_COLUMN = 3         # La première colonne où figure un nom de clie
 CENTRAL_WORKBOOK = "Commandes.xlsx"
 OUTPUT_WORKBOOK = "Commandes2.xlsx"
 FICHIER_CORRESPONDANCE_CLIENTS = "script/Correspondances_clients.csv"
-LAST_RUN_FILE = "script/Derniere_execution.txt"
