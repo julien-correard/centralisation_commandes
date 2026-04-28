@@ -1,11 +1,7 @@
 from openpyxl import load_workbook
-from openpyxl.utils import get_column_letter
 
 from pathlib import Path
 
-from typing import List
-
-from models import Article
 from excel_writer import add_article
 from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
@@ -15,13 +11,15 @@ from config_loader import load_config
         
 def main():
     try:
+
+        BASE_DIR = Path(__file__).resolve().parents[1]
         
         try:
-            config = load_config()
+            config = load_config(BASE_DIR)
         except Exception as e:
             print(e)
             exit(1)
-
+        
         client_map = load_client_map(config.fichier_correspondance_clients)
 
         try:

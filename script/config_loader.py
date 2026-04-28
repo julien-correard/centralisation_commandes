@@ -1,8 +1,8 @@
 import configparser
-import os
+from pathlib import Path
 
 class Config:
-    def __init__(self, parser):
+    def __init__(self, parser, root_path):
         try:
             # --- CLIENT ---
             self.lowest_client_row = parser.getint("CLIENT", "LOWEST_CLIENT_ROW")
@@ -20,10 +20,10 @@ class Config:
             self.first_client_column = parser.getint("LAYOUT", "FIRST_CLIENT_COLUMN")
 
             # --- FILES ---
-            self.central_workbook = parser.get("FILES", "CENTRAL_WORKBOOK")
-            self.output_workbook = parser.get("FILES", "OUTPUT_WORKBOOK")
-            self.fichier_correspondance_clients = parser.get("FILES", "FICHIER_CORRESPONDANCE_CLIENTS")
-            self.client_path = parser.get("FILES", "CLIENT_PATH")
+            self.central_workbook = root_path / parser.get("FILES", "CENTRAL_WORKBOOK")
+            self.output_workbook = root_path /parser.get("FILES", "OUTPUT_WORKBOOK")
+            self.fichier_correspondance_clients = root_path /parser.get("FILES", "FICHIER_CORRESPONDANCE_CLIENTS")
+            self.client_path = root_path /parser.get("FILES", "CLIENT_PATH")
 
         except configparser.NoSectionError as e:
             raise ValueError(f"Section manquante dans config.ini : {e.section}") from e
@@ -34,12 +34,13 @@ class Config:
         except ValueError as e:
             raise ValueError(f"Erreur de type dans config.ini (int attendu ?) : {e}") from e
 
-def load_config():
-    
-    path = "script/config.ini"
+def load_config(root_path: Path):
+    path = root_path / "script" / "config.ini"
 
-    if not os.path.exists(path):
+    if not path.exists():
         raise FileNotFoundError(f"Fichier de config introuvable : {path}")
+
     parser = configparser.ConfigParser()
-    parser.read(path)
-    return Config(parser)
+    parser.read(str(path))
+
+    return Config(parser, root_path)
