@@ -1,7 +1,4 @@
-from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
-
-from typing import List
 
 from models import Article
 

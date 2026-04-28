@@ -24,7 +24,7 @@ def main():
             print(e)
             exit(1)
         
-        client_map = load_client_map(config.fichier_correspondance_clients)
+        client_map, client_list = load_client_map(config.fichier_correspondance_clients)
 
         try:
             orders_workbook = load_workbook(config.central_workbook)
@@ -57,8 +57,17 @@ def main():
                 add_article(orders_sheet, client, article, client_map, config)
             print("OK")
 
+            client_list.discard(client) #Vérifier si tous les clients ont été traités
+
         orders_workbook.save(config.output_workbook)
-        print(f"\nFichier {config.output_workbook} enregistré avec succès.")
+
+        for missing_client in client_list:
+            print(f"\n!!! Attention : le client {missing_client} n'a pas pu être traité, fichier .xlsx introuvable !!!\n"
+                  f"Si ce client n'est plus en compte, veuillez le supprimer du fichier :"
+                  f" {Path(config.fichier_correspondance_clients).relative_to(BASE_DIR)}")
+
+        print(f"\nFichier {Path(config.output_workbook).relative_to(BASE_DIR)} enregistré avec succès.")
+
         input("Appuyez sur entrée pour quitter...")
 
     except ValueError as e:
