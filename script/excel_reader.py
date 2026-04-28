@@ -5,17 +5,13 @@ from typing import List
 
 from models import Article
 
-from config import CLIENT_NAME_ROW, CLIENT_NAME_COLUMN, LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW
-    
-
-
-def get_client(sheet, client_filename):
-    value = sheet.cell(row=CLIENT_NAME_ROW, column=CLIENT_NAME_COLUMN).value
+def get_client(sheet, client_filename,config):
+    value = sheet.cell(row=config.client_name_row, column=config.client_name_column).value
 
     if value is None or value == "":
         # Traduction de 1 3 par exemple à C1
-        col_letter = get_column_letter(CLIENT_NAME_COLUMN)
-        cell_ref = f"{col_letter}{CLIENT_NAME_ROW}"
+        col_letter = get_column_letter(config.client_name_column)
+        cell_ref = f"{col_letter}{config.client_name_row}"
 
         raise ValueError(
             f"Nom du client introuvable dans la cellule "
@@ -26,10 +22,10 @@ def get_client(sheet, client_filename):
 
     return value
 
-def read_articles(sheet, client, filename):
+def read_articles(sheet, client, filename, config):
     articles = []
 
-    for row in range(LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW + 1):
+    for row in range(config.lowest_client_row, config.highest_client_row + 1):
 
         col = 1
         while col <= sheet.max_column:

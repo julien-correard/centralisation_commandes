@@ -1,8 +1,7 @@
 import csv
 
-from config import FICHIER_CORRESPONDANCE_CLIENTS
 
-def load_client_map(path=FICHIER_CORRESPONDANCE_CLIENTS):
+def load_client_map(path):
     client_map = {}
 
     try:
@@ -18,7 +17,7 @@ def load_client_map(path=FICHIER_CORRESPONDANCE_CLIENTS):
                 client_map[client_excel] = client_central
     except:
         raise ValueError(
-            f"Le fichier {FICHIER_CORRESPONDANCE_CLIENTS} est introuvable."
+            f"Le fichier {path} est introuvable."
         )
 
     return client_map

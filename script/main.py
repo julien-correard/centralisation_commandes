@@ -10,20 +10,25 @@ from excel_writer import add_article
 from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
 
-from config import CLIENT_NAME_ROW, CLIENT_NAME_COLUMN, LOWEST_CLIENT_ROW, HIGHEST_CLIENT_ROW
-from config import CENTRAL_WORKBOOK, OUTPUT_WORKBOOK
+from config_loader import load_config
 
         
 def main():
     try:
         
-        client_map = load_client_map()
+        try:
+            config = load_config()
+        except Exception as e:
+            print(e)
+            exit(1)
+
+        client_map = load_client_map(config.fichier_correspondance_clients)
 
         try:
-            orders_workbook = load_workbook(CENTRAL_WORKBOOK)
+            orders_workbook = load_workbook(config.central_workbook)
         except:
             raise ValueError(
-                f"Le fichier {CENTRAL_WORKBOOK} n'a pas été trouvé."
+                f"Le fichier {config.central_workbook} n'a pas été trouvé."
             )
         orders_sheet = orders_workbook.active
 
@@ -43,22 +48,22 @@ def main():
             client_workbook = load_workbook(file_path)
             client_sheet = client_workbook.active
 
-            client = get_client(client_sheet, file_path)
-            articles = read_articles(client_sheet, client, file_path)
+            client = get_client(client_sheet, file_path, config)
+            articles = read_articles(client_sheet, client, file_path, config)
 
             for article in articles:
-                add_article(orders_sheet, client, article, client_map)
+                add_article(orders_sheet, client, article, client_map, config)
             print("OK")
 
-        orders_workbook.save(OUTPUT_WORKBOOK)
-        print(f"\nFichier {OUTPUT_WORKBOOK} enregistré avec succès.")
+        orders_workbook.save(config.output_workbook)
+        print(f"\nFichier {config.output_workbook} enregistré avec succès.")
         input("Appuyez sur entrée pour quitter...")
 
     except ValueError as e:
         message = (
         f"\n\n!!! ERREUR !!!\n\n"
         f"{e}\n\n"
-        f"Le fichier {OUTPUT_WORKBOOK} n'a pas été modifié.\n"
+        f"Le fichier {config.output_workbook} n'a pas été modifié.\n"
         f"\nAppuyez sur Entrée pour quitter..."
         )
         print(message)
