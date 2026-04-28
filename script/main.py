@@ -2,6 +2,8 @@ from openpyxl import load_workbook
 
 from pathlib import Path
 
+import sys
+
 from excel_writer import add_article
 from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
@@ -11,8 +13,10 @@ from config_loader import load_config
         
 def main():
     try:
-
-        BASE_DIR = Path(__file__).resolve().parents[1]
+        if len(sys.argv) > 1:
+            BASE_DIR = Path(sys.argv[1])
+        else:
+            BASE_DIR = Path(__file__).resolve().parents[1]
         
         try:
             config = load_config(BASE_DIR)
