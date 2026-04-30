@@ -9,7 +9,7 @@ from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
 
 from config_loader import load_config
-from central_file_save import save_central_file
+from central_file_save import save_central_file, delete_temp_central_file, save_temp_backup_central_file
 
         
 def main():
@@ -29,24 +29,24 @@ def main():
 
         try:
             orders_workbook = load_workbook(config.central_workbook)
-        except:
+        except Exception as e:
             raise ValueError(
-                f"Le fichier {config.central_workbook} n'a pas été trouvé."
+                f"Impossible d'ouvrir le fichier Excel {config.central_workbook} : {e}"
             )
         orders_sheet = orders_workbook.active
 
-        save_central_file(config, BASE_DIR)
+        save_file = save_temp_backup_central_file(config, BASE_DIR)
 
-        folder = "clients"
+        clients_folder = BASE_DIR / "clients"
 
-        files = list(Path(folder).glob("*.xlsx"))
+        files = list(clients_folder.glob("*.xlsx"))
 
         if not files:
-            raise ValueError(
-                f"Aucun fichier .xlsx trouvé dans le dossier {folder}"
+            raise FileNotFoundError(
+                f"Aucun fichier .xlsx trouvé dans le dossier {clients_folder}"
             )
 
-        for file_path in Path(folder).glob("*.xlsx"):
+        for file_path in files:
 
             print(f"Traitement du fichier {file_path} : ", end="")
 
@@ -71,11 +71,16 @@ def main():
 
         print(f"\nFichier {Path(config.output_workbook).relative_to(BASE_DIR)} enregistré avec succès.")
 
+        save_central_file(save_file, BASE_DIR)
+
         input("Appuyez sur entrée pour quitter...")
 
-    except ValueError as e:
+    except (ValueError, FileNotFoundError) as e:
+
+        delete_temp_central_file(save_file)
+
         message = (
-        f"\n\n!!! ERREUR !!!\n\n"
+        f"\n!!! ERREUR !!!\n\n"
         f"{e}\n\n"
         f"Le fichier {config.output_workbook} n'a pas été modifié.\n"
         f"\nAppuyez sur Entrée pour quitter..."

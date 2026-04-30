@@ -1,9 +1,8 @@
 import shutil
 from datetime import datetime
-import os
 from pathlib import Path
 
-def save_central_file(config, BASE_DIR):
+def save_temp_backup_central_file(config, BASE_DIR):
 
     central_file = config.central_workbook
     directory = central_file.parent
@@ -11,14 +10,14 @@ def save_central_file(config, BASE_DIR):
     base, ext = filename.rsplit(".", 1)
 
     if config.backup == "none":
-        return
+        return ""
 
     elif config.backup == "once":
         filename = base + "_backup" + "." + ext
 
     elif config.backup == "date":
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = base + "_backup_" + timestamp + "." + ext
+        filename = base + "_backup_" + timestamp + ".tmp." + ext
     else:
         print(f"!!! La clé [BACKUP_TYPE] du fichier config.ini est invalide."
               f" Aucune sauvegarde ne sera effectuée. !!!\n")
@@ -32,5 +31,15 @@ def save_central_file(config, BASE_DIR):
 
     shutil.copy(config.central_workbook, save_file)
 
-    print(f"Fichier central sauvegardé dans : {Path(save_file).relative_to(BASE_DIR)}\n")
+    return save_file
+
+def delete_temp_central_file(save_file):
+    if save_file and save_file.exists():
+        save_file.unlink()
+
+def save_central_file(temp_file, BASE_DIR):
+    if temp_file and temp_file.exists():
+        final_path = temp_file.with_suffix(temp_file.suffix.replace(".tmp", ""))
+        temp_file.replace(final_path)
+        print(f"L'ancien fichier central a été sauvegardé dans : {Path(final_path).relative_to(BASE_DIR)}\n")
 
