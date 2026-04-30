@@ -19,6 +19,10 @@ class Config:
             self.client_row = parser.getint("LAYOUT", "CLIENT_ROW")
             self.first_client_column = parser.getint("LAYOUT", "FIRST_CLIENT_COLUMN")
 
+            # --- BACKUP ---
+
+            self.backup = parser.get("BACKUP", "BACKUP_TYPE")
+
             # --- FILES ---
             self.central_workbook = root_path / parser.get("FILES", "CENTRAL_WORKBOOK")
             self.output_workbook = root_path /parser.get("FILES", "OUTPUT_WORKBOOK")

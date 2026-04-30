@@ -7,6 +7,9 @@
 script/Derniere_execution.txt
 script/Lisezmoi.txt
 
+/.venv
+/.vscode
+
 # Fichiers temporaires
 
 *.xlsx#

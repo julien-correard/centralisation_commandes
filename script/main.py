@@ -9,6 +9,7 @@ from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
 
 from config_loader import load_config
+from central_file_save import save_central_file
 
         
 def main():
@@ -33,6 +34,8 @@ def main():
                 f"Le fichier {config.central_workbook} n'a pas été trouvé."
             )
         orders_sheet = orders_workbook.active
+
+        save_central_file(config, BASE_DIR)
 
         folder = "clients"
 
