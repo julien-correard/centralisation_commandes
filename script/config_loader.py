@@ -99,6 +99,10 @@ CLIENT_NAME_COLUMN = 3
 CLIENT_ROW = 1
 FIRST_CLIENT_COLUMN = 3
 
+[BACKUP]
+; Sauvegarde du fichier central :
+; none = aucune, once = ecrase la dernière sauvegarde, date = sauvegarde à chaque exécution
+BACKUP_TYPE = once
 
 [FILES]
 ; Fichier modèle pour le tableau central
