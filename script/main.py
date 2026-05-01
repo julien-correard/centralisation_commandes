@@ -35,11 +35,12 @@ def main():
             )
         orders_sheet = orders_workbook.active
 
-        save_file = save_temp_backup_central_file(config, BASE_DIR)
+        save_file = save_temp_backup_central_file(config)
 
-        clients_folder = BASE_DIR / "clients"
+        clients_folder = config.client_path
 
         files = list(clients_folder.glob("*.xlsx"))
+
 
         if not files:
             raise FileNotFoundError(
@@ -69,9 +70,9 @@ def main():
                   f"Si ce client n'est plus en compte, veuillez le supprimer du fichier :"
                   f" {Path(config.fichier_correspondance_clients).relative_to(BASE_DIR)}")
 
-        print(f"\nFichier {Path(config.output_workbook).relative_to(BASE_DIR)} enregistré avec succès.")
+        print(f"\nFichier {Path(config.output_workbook).relative_to(config.working_directory)} enregistré avec succès.")
 
-        save_central_file(save_file, BASE_DIR)
+        save_central_file(save_file, config.working_directory)
 
         input("Appuyez sur entrée pour quitter...")
 

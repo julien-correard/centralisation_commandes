@@ -2,7 +2,7 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
-def save_temp_backup_central_file(config, BASE_DIR):
+def save_temp_backup_central_file(config):
 
     central_file = config.central_workbook
     directory = central_file.parent
@@ -37,9 +37,9 @@ def delete_temp_central_file(save_file):
     if save_file and save_file.exists():
         save_file.unlink()
 
-def save_central_file(temp_file, BASE_DIR):
+def save_central_file(temp_file, working_directory):
     if temp_file and temp_file.exists():
         final_path = temp_file.with_suffix(temp_file.suffix.replace(".tmp", ""))
         temp_file.replace(final_path)
-        print(f"L'ancien fichier central a été sauvegardé dans : {Path(final_path).relative_to(BASE_DIR)}\n")
+        print(f"L'ancien fichier central a été sauvegardé dans : {Path(final_path).relative_to(working_directory)}\n")
 
