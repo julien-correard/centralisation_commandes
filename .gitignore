@@ -25,3 +25,6 @@ script/__pycache__
 /script/build
 *.exe
 /script/dist
+*.ico
+/build
+main.spec

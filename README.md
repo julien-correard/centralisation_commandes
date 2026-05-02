@@ -77,4 +77,11 @@ Le script adopte une approche **fail-fast** : en cas d’anomalie (données inco
 * Séparation entre logique métier et configuration
 * Approche orientée robustesse plutôt que rigidité
 
+--
 
+## A améliorer
+
+La gestion des erreurs est actuellement fonctionnelle mais pourrait être rendue plus idiomatique en Python.
+Notamment, la séparation entre validation, logique métier et interaction utilisateur pourrait être améliorée (par exemple via des exceptions personnalisées plutôt que des appels directs à input() ou sys.exit()).
+
+Ce projet étant mon premier en Python, il a été construit de manière progressive, avec un apprentissage en cours de développement. Une refactorisation future permettrait d'améliorer la structure et la maintenabilité sur ces aspects.

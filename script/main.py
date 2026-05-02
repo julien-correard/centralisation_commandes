@@ -14,6 +14,8 @@ from central_file_save import save_central_file, delete_temp_central_file, save_
         
 def main():
     try:
+        config = None
+        save_file = None
         if len(sys.argv) > 1:
             BASE_DIR = Path(sys.argv[1])
         else:
@@ -72,18 +74,20 @@ def main():
 
         print(f"\nFichier {Path(config.output_workbook).relative_to(config.working_directory)} enregistré avec succès.")
 
-        save_central_file(save_file, config.working_directory)
+        save_central_file(save_file)
 
         input("Appuyez sur entrée pour quitter...")
 
     except (ValueError, FileNotFoundError) as e:
+        
+        if save_file:
+            delete_temp_central_file(save_file)
 
-        delete_temp_central_file(save_file)
-
+        output_file = config.output_workbook if config else "inconnu"
         message = (
         f"\n!!! ERREUR !!!\n\n"
         f"{e}\n\n"
-        f"Le fichier {config.output_workbook} n'a pas été modifié.\n"
+        f"Le fichier {output_file} n'a pas été modifié.\n"
         f"\nAppuyez sur Entrée pour quitter..."
         )
         print(message)
