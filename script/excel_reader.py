@@ -28,6 +28,8 @@ def get_client(sheet, client_filename,config):
 def read_articles(wb, sheet, client, filename, config):
     articles = []
 
+    check_if_sheet_locked(sheet, filename, config.protect_client_files) # Verrouillage des cellules
+
     for row in range(config.lowest_client_row, config.highest_client_row + 1):
 
         col = 1
@@ -39,7 +41,7 @@ def read_articles(wb, sheet, client, filename, config):
             if name not in (None, ""):
 
                 check_if_cell_unlocked(sheet, row, col + 1, config.protect_client_files)
-
+                
                 if quantity not in (None, ""):
                     try:
                         quantity_int = int(quantity)
@@ -53,6 +55,8 @@ def read_articles(wb, sheet, client, filename, config):
                     articles.append(Article(name, quantity_int))
 
             col += 2
-    check_if_sheet_locked(sheet, filename, config.protect_client_files) # Verrouillage des cellules après lecture ET SAUVEGARDE
+            
+    if config.protect_client_files:
+        save_workbook(wb, filename) # Sauvegarde après déverrouillage des cellules
 
     return articles

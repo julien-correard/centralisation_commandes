@@ -12,12 +12,11 @@ def check_if_sheet_locked(sheet, file: Path, protect: bool):
             for cell in row:
                 cell.protection = Protection(locked=True)
 
-        wb = sheet.parent
-        save_workbook(wb, file)
-
 
 
 def check_if_cell_unlocked(sheet, row: int, col: int, protect: bool):
     if protect == True:
         cell = sheet.cell(row=row, column=col)   
         cell.protection = Protection(locked=False)
+        
+        
