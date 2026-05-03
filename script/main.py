@@ -4,7 +4,7 @@ from pathlib import Path
 
 import sys
 
-from excel_writer import add_article, save_workbook
+from excel_writer import add_article, save_workbook, clear_central_table
 from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
 
@@ -38,6 +38,8 @@ def main():
         orders_sheet = orders_workbook.active
 
         save_file = save_temp_backup_central_file(config)
+
+        clear_central_table(orders_sheet, config)
 
         clients_folder = config.client_path
 

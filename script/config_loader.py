@@ -11,6 +11,7 @@ class Config:
 
             # --- CENTRAL ---
             self.lowest_central_row = parser.getint("CENTRAL", "LOWEST_CENTRAL_ROW")
+            self.lowest_central_col = parser.getint("CENTRAL", "LOWEST_CENTRAL_COL")
             self.highest_central_row = parser.getint("CENTRAL", "HIGHEST_CENTRAL_ROW")
 
             # --- LAYOUT ---
@@ -132,6 +133,9 @@ def create_default_config(path: Path):
     [CENTRAL]
     ; Première ligne utile du tableau central
     LOWEST_CENTRAL_ROW = 2
+
+    ; Première colonne utile du tableau central
+    LOWEST_CENTRAL_COL = 3
 
     ; Dernière ligne utile du tableau central
     HIGHEST_CENTRAL_ROW = 300

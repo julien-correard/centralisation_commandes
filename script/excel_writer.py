@@ -1,6 +1,10 @@
 from models import Article
 
-
+def clear_central_table(sheet, config):
+    for row in range(config.lowest_central_row, config.highest_central_row + 1):
+        for col in range(config.lowest_central_col, sheet.max_column + 1):
+            sheet.cell(row=row, column=col).value = None
+            
 def get_last_filled_column(sheet, row):
     last_col = None
 
@@ -33,7 +37,7 @@ def add_article(sheet, client, article: Article, client_map, config):
 
     client_column = get_client_column(sheet, client, client_map, config)
     
-    for row in range(config.lowest_central_row, config.highest_central_row):
+    for row in range(config.lowest_central_row, config.highest_central_row + 1):
 
         order_name = sheet.cell(row=row, column=1).value
         order_quantity = sheet.cell(row=row, column=client_column).value
