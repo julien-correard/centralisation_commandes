@@ -25,6 +25,9 @@ class Config:
             self.backup_type = parser.get("BACKUP", "BACKUP_TYPE")
             self.backup_location = parser.get("BACKUP", "BACKUP_LOCATION")
 
+            # --- PROTECTION ---
+            self.protect_client_files = parser.get("PROTECTION", "PROTECT_CLIENT_FILES")
+
 
             # --- PATH ---
             self.base_path = parser.get("PATH", "BASE_PATH")
@@ -55,6 +58,17 @@ class Config:
                 self.backup_type = "none"
             else:
                 sys.exit()
+        
+        if self.protect_client_files.lower() not in ("y", "n"):
+            print(f"La clé [PROTECT_CLIENT_FILES] du fichier config.ini est erronée")
+            choice = input("Voulez vous continuer sans protéger les fichiers clients? (o/n) ")
+            if choice == "o":
+                self.protect_client_files = "n"
+            else:
+                sys.exit()
+        if self.protect_client_files.lower() == "y":
+            self.protect_client_files = True
+        else:            self.protect_client_files = False
 
         
         self.central_workbook = self.working_directory / self.central_workbook
@@ -150,6 +164,10 @@ def create_default_config(path: Path):
     ; Répertoire où sont situés les fichiers de travail (tableau central, tableaux clients, etc.)
     ; Laisser vide pour utiliser le répertoire courant (pas d'espace SVP)
     WORKING_DIRECTORY =
+
+    [PROTECTION]
+    ; Protéger en écriture les cellules (sauf les quantités) dans les fichiers clients (y ou n)
+    PROTECT_CLIENT_FILES = y
 
     [FILES]
     ; Fichier modèle pour le tableau central

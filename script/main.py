@@ -4,7 +4,7 @@ from pathlib import Path
 
 import sys
 
-from excel_writer import add_article
+from excel_writer import add_article, save_workbook
 from excel_reader import get_client, read_articles
 from client_mapping import load_client_map
 
@@ -43,7 +43,6 @@ def main():
 
         files = list(clients_folder.glob("*.xlsx"))
 
-
         if not files:
             raise FileNotFoundError(
                 f"Aucun fichier .xlsx trouvé dans le dossier {clients_folder}"
@@ -57,7 +56,7 @@ def main():
             client_sheet = client_workbook.active
 
             client = get_client(client_sheet, file_path, config)
-            articles = read_articles(client_sheet, client, file_path, config)
+            articles = read_articles(client_workbook, client_sheet, client, file_path, config)
 
             for article in articles:
                 add_article(orders_sheet, client, article, client_map, config)
@@ -65,14 +64,14 @@ def main():
 
             client_list.discard(client) #Vérifier si tous les clients ont été traités
 
-        orders_workbook.save(config.output_workbook)
+        save_workbook(orders_workbook, config.output_workbook)
 
         for missing_client in client_list:
             print(f"\n!!! Attention : le client {missing_client} n'a pas pu être traité, fichier .xlsx introuvable !!!\n"
                   f"Si ce client n'est plus en compte, veuillez le supprimer du fichier :"
                   f" {Path(config.fichier_correspondance_clients).relative_to(BASE_DIR)}")
 
-        print(f"\nFichier {Path(config.output_workbook).relative_to(config.working_directory)} enregistré avec succès.")
+        print(f"\nFichier {Path(config.output_workbook).relative_to(config.working_directory)} enregistré avec succès.\n")
 
         save_central_file(save_file)
 

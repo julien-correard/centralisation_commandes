@@ -50,3 +50,12 @@ def add_article(sheet, client, article: Article, client_map, config):
         f"Un fichier a peut être été modifié.\n"
         f"Veuillez vérifier les fichiers et relancer le script." 
     )
+
+def save_workbook(workbook, path):
+    try:
+        workbook.save(path)
+    except Exception as e:
+        raise ValueError(
+            f"Impossible de sauvegarder le fichier Excel {path} :\n{e}\n"
+            f"Veuillez vérifier que le fichier n'est pas ouvert et que vous avez les permissions nécessaires, puis relancez le script."
+        )   
