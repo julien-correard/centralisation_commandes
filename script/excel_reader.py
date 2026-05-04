@@ -3,7 +3,18 @@ from openpyxl.utils import get_column_letter
 from cell_locker import check_if_cell_unlocked, check_if_sheet_locked
 from excel_writer import save_workbook
 
-from models import Article, Cell
+from models import Article
+
+def find_duplicate(ws, config):
+    seen = set()
+    for row in ws.iter_rows(min_row=config.lowest_central_row, max_row=config.highest_central_row, min_col=1, max_col=1):
+        cell = row[0]
+        if cell.value in seen and cell.value not in (None, ""):
+            raise ValueError(
+                f"L'article '{cell.value}' est en double à la cellule {cell.coordinate}. "
+                "Veuillez corriger le fichier commande, les fichiers clients et relancer le script."
+            )
+        seen.add(cell.value)
 
 def get_client(sheet, client_filename,config):
 

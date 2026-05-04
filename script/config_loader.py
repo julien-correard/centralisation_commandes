@@ -13,6 +13,7 @@ class Config:
             self.lowest_central_row = parser.getint("CENTRAL", "LOWEST_CENTRAL_ROW")
             self.lowest_central_col = parser.getint("CENTRAL", "LOWEST_CENTRAL_COL")
             self.highest_central_row = parser.getint("CENTRAL", "HIGHEST_CENTRAL_ROW")
+            self.highest_central_col = parser.getint("CENTRAL", "HIGHEST_CENTRAL_COL")
 
             # --- LAYOUT ---
             self.client_name_row = parser.getint("LAYOUT", "CLIENT_NAME_ROW")
@@ -130,18 +131,21 @@ def create_default_config(path: Path):
     HIGHEST_CLIENT_ROW = 300
 
 
-    [CENTRAL]
+   [CENTRAL]
     ; Première ligne utile du tableau central
     LOWEST_CENTRAL_ROW = 2
-
-    ; Première colonne utile du tableau central
-    LOWEST_CENTRAL_COL = 3
 
     ; Dernière ligne utile du tableau central
     HIGHEST_CENTRAL_ROW = 300
 
+    ; Première colonne utile du tableau central
+    LOWEST_CENTRAL_COL = 3
 
-    [LAYOUT]
+    ; Dernière colone utile du tableau central
+    HIGHEST_CENTRAL_COL = 21
+
+
+    [LAYOUT] 
     ; Position du nom du client dans son fichier
     CLIENT_NAME_ROW = 1
     CLIENT_NAME_COLUMN = 3

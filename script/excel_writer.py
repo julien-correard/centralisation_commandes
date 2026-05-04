@@ -2,7 +2,7 @@ from models import Article
 
 def clear_central_table(sheet, config):
     for row in range(config.lowest_central_row, config.highest_central_row + 1):
-        for col in range(config.lowest_central_col, sheet.max_column + 1):
+        for col in range(config.lowest_central_col, config.highest_central_col + 1, 2):
             sheet.cell(row=row, column=col).value = None
             
 def get_last_filled_column(sheet, row):

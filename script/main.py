@@ -5,7 +5,7 @@ from pathlib import Path
 import sys
 
 from excel_writer import add_article, save_workbook, clear_central_table
-from excel_reader import get_client, read_articles
+from excel_reader import get_client, read_articles, find_duplicate
 from client_mapping import load_client_map
 
 from config_loader import load_config
@@ -36,6 +36,8 @@ def main():
                 f"Impossible d'ouvrir le fichier Excel {config.central_workbook} : {e}"
             )
         orders_sheet = orders_workbook.active
+
+        find_duplicate(orders_sheet, config) # Vérification des doublons dans le fichier central avant de commencer les modifications
 
         save_file = save_temp_backup_central_file(config)
 
